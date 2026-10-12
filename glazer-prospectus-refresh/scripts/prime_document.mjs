@@ -654,7 +654,7 @@ function emitProgress(payload, jsonProgress, stderr = process.stderr) {
     stderr.write(`${JSON.stringify(payload)}\n`);
     return;
   }
-  const scope = payload.stage || 'glazer-prime';
+  const scope = payload.stage || 'glazer-prospectus-refresh';
   const typeLabel = progressTypeLabel(payload.type);
   stderr.write(`[${scope}][${typeLabel}] ${payload.message ?? payload.status ?? 'processing'}\n`);
 }
@@ -695,7 +695,7 @@ async function pollWatch(projectId, client, options = {}) {
   const heartbeat = () => {
     const now = Date.now();
     if (now - lastHeartbeatAt < heartbeatIntervalMs) return;
-    onProgress({ stage: 'glazer-prime', type: 'log', message: '刷报仍在进行中，正在等待下一次进度更新。' });
+    onProgress({ stage: 'glazer-prospectus-refresh', type: 'log', message: '刷报仍在进行中，正在等待下一次进度更新。' });
     lastHeartbeatAt = now;
   };
 
@@ -827,7 +827,7 @@ async function main() {
   } catch (error) {
     const primeError = error instanceof PrimeError
       ? error
-      : new PrimeError('prime.client_failed', 'Glazer Prime client failed', { cause: error });
+      : new PrimeError('prime.client_failed', 'Glazer client failed', { cause: error });
     process.stdout.write(`${JSON.stringify({
       status: 'failed',
       project_id: primeError.projectId,

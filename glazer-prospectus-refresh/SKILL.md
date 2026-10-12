@@ -1,6 +1,6 @@
 ---
-name: glazer-prime
-description: Refresh a bond prospectus through PDRouter with Glazer Prime, using one historical DOCX prospectus and one or more audit/financial reports, then downloading the highlighted annotated DOCX result.
+name: glazer-prospectus-refresh
+description: Refresh a bond prospectus through PDRouter with Glazer, using one historical DOCX prospectus and one or more audit/financial reports, then downloading the highlighted annotated DOCX result.
 metadata:
   author: PAODINGAI
   version: 1.0.0
@@ -10,9 +10,9 @@ metadata:
       bins: [node]
 ---
 
-# Glazer Prime Prospectus Refresh
+# Glazer Prospectus Refresh
 
-Use this skill to refresh an existing bond prospectus through **PDRouter**. The workflow uploads one historical prospectus and one or more audit/financial reports, starts a Glazer Prime refresh project, watches incremental progress events, and downloads the highlighted annotated DOCX result.
+Use this skill to refresh an existing bond prospectus through **PDRouter**. The workflow uploads one historical prospectus and one or more audit/financial reports, starts a Glazer refresh project, watches incremental progress events, and downloads the highlighted annotated DOCX result.
 
 All service requests must go through PDRouter. PDRouter authenticates the caller, bills the request, and forwards it to Glazer. Do not call the Glazer upstream host directly from this skill.
 
@@ -37,7 +37,7 @@ Pass one `--period` per input file, in the same order as the files, plus `--new-
 Never pass inline JSON on the command line. Use `--period` / `--new-period`, or `--periods-file`. Nested quotes break on Windows PowerShell.
 
 ```bash
-node skills/glazer-prime/scripts/prime_document.mjs start \
+node skills/glazer-prospectus-refresh/scripts/prime_document.mjs start \
   <historical-prospectus.docx> <audit-report.pdf> [audit-report-2.xlsx ...] \
   --period "2023年、2022年" \
   --period "2024年" \
@@ -46,12 +46,12 @@ node skills/glazer-prime/scripts/prime_document.mjs start \
   [--output-dir <dir>] \
   [--json]
 
-node skills/glazer-prime/scripts/prime_document.mjs watch <project_id> \
+node skills/glazer-prospectus-refresh/scripts/prime_document.mjs watch <project_id> \
   [--after-event-id <id>] [--json]
 
-node skills/glazer-prime/scripts/prime_document.mjs status <project_id> [--json]
+node skills/glazer-prospectus-refresh/scripts/prime_document.mjs status <project_id> [--json]
 
-node skills/glazer-prime/scripts/prime_document.mjs download <project_id> \
+node skills/glazer-prospectus-refresh/scripts/prime_document.mjs download <project_id> \
   [--output-dir <dir>] [--json]
 ```
 
@@ -239,5 +239,5 @@ When validation fails, explain it in business language and ask the user for the 
 Large prospectus refresh jobs can run for a long time. Run `start` or `watch` as the host-managed background task when available. A local interruption only stops the local watcher; it does not cancel the remote Glazer project. Resume with:
 
 ```bash
-node skills/glazer-prime/scripts/prime_document.mjs watch <project_id> --after-event-id <last_max_event_id>
+node skills/glazer-prospectus-refresh/scripts/prime_document.mjs watch <project_id> --after-event-id <last_max_event_id>
 ```

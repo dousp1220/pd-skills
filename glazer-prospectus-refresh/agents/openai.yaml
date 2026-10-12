@@ -1,0 +1,4 @@
+interface:
+  display_name: "Glazer Prospectus Refresh"
+  short_description: "Refresh a bond prospectus and download the highlighted annotated DOCX result"
+  default_prompt: "Use $glazer-prospectus-refresh through PDRouter to refresh a historical prospectus with audit/financial reports, watch progress, and download the annotated DOCX. Follow SKILL.md. Run only `scripts/prime_document.mjs start|watch|status|download`."
